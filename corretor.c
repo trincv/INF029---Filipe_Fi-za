@@ -21,13 +21,13 @@
 #include "FilipeFiuza-20241160009-T1.h"
 
 void testSomar();    //função utilizada para testes
-// void testFatorial(); //função utilizada para testes
-// void testQ1();
-// void testQ2();
-// void testQ3();
-// void testQ4();
-// void testQ5();
-// void testQ6();
+void testFatorial(); //função utilizada para testes
+void testQ1();
+void testQ2();
+void testQ3();
+void testQ4();
+void testQ5();
+void testQ6();
 
 int main()
 {
