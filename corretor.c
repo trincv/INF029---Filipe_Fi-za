@@ -33,8 +33,8 @@ int main()
 {
     //testSomar();
     //testFatorial();
-    //testQ1();
-    testQ2();
+    testQ1();
+    //testQ2();
     /*testQ3();
     testQ4();
     testQ5();
@@ -43,6 +43,7 @@ int main()
 
 void testSomar()
 {
+    int d;
     printf("%d\n", somar(3, 4) == 7);
     printf("%d\n", somar(-1, -3) == -4);
     printf("%d\n", somar(-6, 6) == 0);
@@ -50,7 +51,7 @@ void testSomar()
     printf("%d\n", somar(30, -9) == 21);
     printf("%d\n", somar(-2, 8) == 6);
     printf("%d\n", somar(1000, 99) == 1099);
-
+    
 }
 
 void testFatorial()
@@ -62,6 +63,7 @@ void testFatorial()
 
 void testQ1()
 {
+    int d;
     char str[11];
     strcpy(str, "29/02/2015");
     printf("%d\n", q1(str) == 0);
@@ -73,6 +75,7 @@ void testQ1()
     printf("%d\n", q1(str) == 0);
     strcpy(str, "/9/2014");
     printf("%d\n", q1(str) == 0);
+    scanf("%d",&d);                               //Lembrar de retirar
 }
 
 void testQ2()

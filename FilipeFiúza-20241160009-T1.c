@@ -93,10 +93,15 @@ int teste(int a)
 int q1(char data[])
 {
   int datavalida = 1;
-
+  
   //quebrar a string data em strings sDia, sMes, sAno
 
+  DataQuebrada dq = quebraData(data);
 
+  if(dq.valido == 0)
+    return 0;
+
+  
   //printf("%s\n", data);
 
   if (datavalida)
