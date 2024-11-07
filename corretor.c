@@ -18,7 +18,7 @@
 #include <string.h>
 
 //renomeie o arquivo do include abaixo para PrimeiroUltimoNomeMATRICULA.h
-#include "FilipeFiúza-20241160009-T1.h"
+#include "FilipeFiuza-20241160009-T1.h"
 
 void testSomar();    //função utilizada para testes
 // void testFatorial(); //função utilizada para testes
