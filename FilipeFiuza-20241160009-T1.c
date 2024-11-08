@@ -100,7 +100,41 @@ int q1(char data[])
 
   if(dq.valido == 0)
     return 0;
-
+  
+  int is_leap_year;
+            
+  if(dq.iAno % 4 == 0 && dq.iAno % 100 > 0)
+    is_leap_year = 0;
+  else
+    if(dq.iAno % 4 == 0 && dq.iAno % 100 == 0 && dq.iAno % 400 == 0)
+      is_leap_year = 0;
+    else
+      is_leap_year = 1;
+  if(dq.iMes > 0 && dq.iMes <= 12){
+    switch(dq.iMes){
+      case 2:{
+        if(is_leap_year == 0){
+          if(dq.iDia > 29 ||  dq.iDia < 1)
+            datavalida = 0;
+        }else
+            if(dq.iDia > 28 ||  dq.iDia < 1)
+              datavalida = 0;
+        break;
+      }
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        if(dq.iDia > 30 || dq.iDia < 1)
+          datavalida = 0;
+        break;
+      default:
+        if(dq.iDia > 31 || dq.iDia < 1)
+          datavalida = 1;
+        break;
+    }
+  }else
+    datavalida = 0;
   
   //printf("%s\n", data);
 
