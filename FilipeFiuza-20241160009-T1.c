@@ -130,7 +130,7 @@ int q1(char data[])
         break;
       default:
         if(dq.iDia > 31 || dq.iDia < 1)
-          datavalida = 1;
+          datavalida = 0;
         break;
     }
   }else
