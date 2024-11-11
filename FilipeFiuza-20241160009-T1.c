@@ -165,6 +165,9 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 
     //calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
+    DataQuebrada dq[2];
+    dq[0] = quebraData(datainicial);
+    dq[1] = quebraData(datafinal);
 
     if (q1(datainicial) == 0){
       dma.retorno = 2;
@@ -174,16 +177,136 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
       return dma;
     }else{
       //verifique se a data final não é menor que a data inicial
-      
+      if(dq[0].iAno > dq[1].iAno){
+        dma.retorno = 4;
+        return dma;
+      }else if(dq[0].iAno == dq[1].iAno && dq[0].iMes > dq[1].iMes){
+        dma.retorno = 4;
+        return dma;
+      }else if(dq[0].iAno == dq[1].iAno && dq[0].iMes == dq[1].iMes && dq[0].iDia > dq[1].iDia){
+        dma.retorno = 4;
+        return dma;
+      }
       //calcule a distancia entre as datas
-
-
+    char month = dq[0].iMes + 1;
+    dma.qtdDias = 0;
+    dma.qtdMeses = 0;
+    dma.qtdAnos = 0;
+      
+    int is_leap_year;
+                
+    if(dq[0].iAno % 4 == 0 && dq[0].iAno % 100 > 0)
+        is_leap_year = 0;
+    else
+        if(dq[0].iAno % 4 == 0 && dq[0].iAno % 100 == 0 && dq[0].iAno % 400 == 0)
+            is_leap_year = 0;
+        else
+            is_leap_year = 1;
+   
+    if(dq[0].iMes == dq[1].iMes && dq[0].iAno == dq[1].iAno)
+        dma.qtdDias = dq[1].iDia - dq[0].iDia;
+    else{
+        for(; month < dq[1].iMes || dq[0].iAno < dq[1].iAno; month++){
+            dma.qtdMeses++;
+            if(month == 12){
+                month = 0;
+                dq[0].iAno++;
+            }
+            if(dma.qtdMeses == 12){
+                dma.qtdMeses = 0;
+                dma.qtdAnos++;
+            }
+        }
+        dma.qtdDias = dq[1].iDia;
+        
+        switch(dq[0].iMes){
+            case 2:{
+                if(is_leap_year == 0){
+                    dma.qtdDias += 29 - dq[0].iDia;
+                    if(dma.qtdDias >= 29){
+                        dma.qtdDias -= 29;
+                        dma.qtdMeses++;
+                    }
+                }else{
+                    dma.qtdDias += 28 - dq[0].iDia;
+                    if(dma.qtdDias >= 28){
+                        dma.qtdDias -= 28;
+                        dma.qtdMeses++;
+                    }
+                }
+                break;
+            }
+            case 4:
+            case 6:
+            case 9:
+            case 11:{
+                dma.qtdDias += 30 - dq[0].iDia;
+                if(dma.qtdDias >= 30){
+                    dma.qtdDias -= 30;
+                    dma.qtdMeses++;
+                }
+                break;
+            }
+            default:{
+                dma.qtdDias += 31 - dq[0].iDia;
+                if(dma.qtdDias >= 31){
+                    dma.qtdDias -= 31;
+                    dma.qtdMeses++;
+                }
+                break;
+            }
+        }
+        if(dq[1].iAno % 4 == 0 && dq[1].iAno % 100 > 0)
+            is_leap_year = 0;
+        else
+            if(dq[1].iAno % 4 == 0 && dq[1].iAno % 100 == 0 && dq[1].iAno % 400 == 0)
+                is_leap_year = 0;
+            else
+                is_leap_year = 1;
+            
+        switch(dq[1].iMes){
+          case 2:{
+            if(is_leap_year == 0){
+              if(dma.qtdDias == 29){
+                dma.qtdDias = 0;
+                dma.qtdMeses++;
+              }
+            }else{
+              if(dma.qtdDias == 28){
+                dma.qtdDias = 0;
+                dma.qtdMeses++;
+              }
+            }
+            break;
+          }
+          case 4:
+          case 6:
+          case 9:
+          case 11:{
+            if(dma.qtdDias == 30){
+              dma.qtdDias = 0;
+              dma.qtdMeses++;
+            }
+            break;
+          }
+          default:{
+            if(dma.qtdDias == 31){
+              dma.qtdDias = 0;
+              dma.qtdMeses++;
+            }
+            break;
+          }
+        }
+        if(dma.qtdMeses == 12){
+            dma.qtdMeses = 0;
+            dma.qtdAnos++;
+        }
+    }
       //se tudo der certo
       dma.retorno = 1;
       return dma;
       
     }
-    
 }
 
 /*
