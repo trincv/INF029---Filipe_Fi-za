@@ -431,7 +431,41 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
+  int qtdOcorrencias = 0;
+  int busca[25];
+  int base[25];
+  int divisor1, divisor2, icont, jcont, tam = 0;
+    
+  for(divisor1 = 10; numerobase / divisor1 > 0; divisor1 *= 10){}
+    
+  for(icont = 0; divisor1 / 10 >= 1; divisor1 /= 10, icont++){
+    base[icont] = (numerobase % divisor1) / (divisor1 / 10);
+  }
+    
+  base[icont] = '\0';
+    
+  for(divisor1 = 10; numerobusca / divisor1 > 0; divisor1 *= 10){}
+    
+  for(icont = 0; divisor1 / 10 >= 1; divisor1 /= 10, icont++){
+    busca[icont] = (numerobusca % divisor1) / (divisor1 / 10);
+    tam++;
+  }
+    
+  busca[icont] = '\0';
+    
+  for(icont = 0, jcont = 0; base[icont] != '\0'; icont++){
+    if(base[icont] == busca[jcont]){
+      while(base[icont] == busca[jcont] && base[icont] != '\0'){
+        icont++;
+        jcont++;
+      }
+      if(jcont == tam)
+        qtdOcorrencias++;
+      
+      jcont = 0;
+      icont--;
+    }
+  }
     return qtdOcorrencias;
 }
 
