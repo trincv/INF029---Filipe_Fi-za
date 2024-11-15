@@ -404,8 +404,19 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
 
 int q5(int num)
 {
+  int divisor1, divisor2, icont;
+  int value = 0;
+    
+  for(divisor1 = 10; num / divisor1 > 0; divisor1 *= 10){}
+    
+  divisor1 /= 10;
+    
+  for(divisor2 = 10; divisor1 >= 1; divisor1 /= 10, divisor2 *= 10){
+    value += (num % divisor2) / (divisor2 / 10) * divisor1;
+  }
+  num = value;
 
-    return num;
+  return num;
 }
 
 /*
