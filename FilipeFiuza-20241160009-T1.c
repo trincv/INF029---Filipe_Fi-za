@@ -343,9 +343,53 @@ int q3(char *texto, char c, int isCaseSensitive)
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
-    int qtdOcorrencias = -1;
-
-    return qtdOcorrencias;
+  int nfrase[100];
+  int nbusca[100];
+  int icont, jcont, tam = 0, Pinicial, kcont;
+  int qtdOcorrencias = -1;
+    
+  for(icont = 0; strBusca[icont] != '\0'; icont++)
+    if(strBusca[icont] >= 'A' && strBusca[icont] <= 'Z')
+      strBusca[icont] = strBusca[icont] + ' ';
+    
+  for(icont = 0; strTexto[icont] != '\0'; icont++)
+    if(strTexto[icont] >= 'A' && strTexto[icont] <= 'Z')
+      strTexto[icont] = strTexto[icont] + ' ';
+            
+  for(icont = 0, jcont = 0; strBusca[icont] != '\0'; icont++)
+    if(strBusca[icont] != -61){
+      nbusca[jcont++] = strBusca[icont] + '\0';
+      tam++;
+    }
+    
+  nbusca[jcont] = '\0';
+    
+  for(icont = 0, jcont = 0; strTexto[icont] != '\0'; icont++)
+    if(strTexto[icont] != -61){
+      nfrase[jcont++] = strTexto[icont] + '\0';
+    }
+    
+  nfrase[jcont + 1] = '\0';
+    
+  for(icont = 0, jcont = 0, kcont = 0; nfrase[icont] != '\0'; icont++){
+    if(nfrase[icont] == nbusca[jcont]){
+      Pinicial = icont + 1;
+      while(nfrase[icont] == nbusca[jcont]){
+        icont++;
+        jcont++;
+      }
+      if(jcont == tam){
+        posicoes[kcont++] = Pinicial; 
+        posicoes[kcont++] = icont;
+      }
+      icont--;
+    }
+    jcont = 0;
+  }
+  
+  qtdOcorrencias = kcont / 2; 
+  
+  return qtdOcorrencias;
 }
 
 /*
