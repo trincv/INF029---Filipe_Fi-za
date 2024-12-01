@@ -25,7 +25,6 @@
 #include "FilipeFiuza-20241160009-T1.h" // Substitua pelo seu arquivo de header renomeado
 #include <stdlib.h>
 #include <locale.h>
-#include <windows.h>
 #include <string.h> // strlen
 #ifdef _WIN32
 #endif
