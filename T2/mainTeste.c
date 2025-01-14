@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "EstruturaVetores.h"
+#include <limits.h>
+#include "EstruturasVetores.h"
 
 void show_log(char *str);
 
@@ -19,14 +19,14 @@ int main()
 {
     inicializar();
     testeInserirSemNada();
-    /*testeCriarEstrutura();
+    testeCriarEstrutura();
     testeInserirComEstrutura();
     testeExcluir();
     testeExcluirNumeroEspecifico();
     testeListar();
     testeRetornarTodosNumeros();
-    testeMudarTamanhoEstrutura();
-    testeListaEncadeada();*/
+    // testeMudarTamanhoEstrutura();
+    // testeListaEncadeada();
     finalizar();
 }
 int ligado = 0;
