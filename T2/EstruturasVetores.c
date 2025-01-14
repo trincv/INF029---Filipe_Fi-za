@@ -25,8 +25,7 @@ int criarEstruturaAuxiliar(int posicao, int tamanho){
     if(posicao >= 0 && posicao < TAM){
         if(vetorPrincipal[posicao] == NULL){
             if(tamanho > 0){
-                int estrutura[tamanho];
-                vetorPrincipal[posicao] = malloc(sizeof(estrutura));
+                vetorPrincipal[posicao] = (int *) malloc(tamanho * sizeof(int));
                 Tam_Ponteiros[posicao] = tamanho;
                 for(int icont = 0; icont < tamanho; icont++)
                     *(vetorPrincipal[posicao] + icont) = VALOR_NULO;
@@ -389,8 +388,28 @@ Rertono (int)
 */
 int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho)
 {
-
-    int retorno = 0;
+    int retorno;
+    posicao -= 1;
+    if(posicao >= 0 && posicao < TAM){
+        if(vetorPrincipal[posicao] != NULL){
+            novoTamanho += Tam_Ponteiros[posicao];
+            if(novoTamanho > 0){
+                vetorPrincipal[posicao] = realloc(vetorPrincipal[posicao], novoTamanho * sizeof(int));
+                if(vetorPrincipal[posicao] != NULL){
+                    for(int icont = Tam_Ponteiros[posicao]; icont < novoTamanho; icont++)
+                        *(vetorPrincipal[posicao] + icont) = VALOR_NULO;
+                    Tam_Ponteiros[posicao] = novoTamanho;
+                    
+                    retorno = SUCESSO;
+                } else
+                    retorno = SEM_ESPACO_DE_MEMORIA;
+            } else
+                retorno = NOVO_TAMANHO_INVALIDO;
+        } else
+            retorno = SEM_ESTRUTURA_AUXILIAR;
+    } else
+        retorno = POSICAO_INVALIDA;
+    
     return retorno;
 }
 
@@ -405,8 +424,20 @@ Retorno (int)
 */
 int getQuantidadeElementosEstruturaAuxiliar(int posicao)
 {
-
-    int retorno = 0;
+    int retorno, qtd = 0;
+    posicao -= 1;
+    if(posicao >= 0 && posicao < TAM){
+        if(vetorPrincipal[posicao] != NULL){
+            if(*(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+                for(int icont = 0; icont < Tam_Ponteiros[posicao] && *(vetorPrincipal[posicao] + icont) != VALOR_NULO; icont++)
+                    qtd++;
+                return qtd;
+            } else
+                retorno = ESTRUTURA_AUXILIAR_VAZIA;
+        } else
+            retorno = SEM_ESTRUTURA_AUXILIAR;
+    } else
+        retorno = POSICAO_INVALIDA;
 
     return retorno;
 }
