@@ -519,17 +519,17 @@ Retorno
     void.
 */
 void destruirListaEncadeadaComCabecote(No **inicio){
+    
+    No * atual = (No *) malloc(sizeof(No));
+    atual = (*inicio)->next;
+    *inicio = NULL;
 
-    // No ** atual = (No *) malloc(sizeof(No));
-    // atual = inicio->next;
-    // inicio = NULL;
-
-    // while(atual != NULL){
-    //     No * liberar = (No *) malloc(sizeof(No));
-    //     liberar = atual;
-    //     atual = atual->next;
-    //     free(liberar);
-    // }
+    while(atual != NULL){
+        No * liberar = (No *) malloc(sizeof(No));
+        liberar = atual;
+        atual = atual->next;
+        free(liberar);
+    }
 }
 
 /*
@@ -549,8 +549,7 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 
 void finalizar()
 {
-    int * ponteiro;
     for(int icont = 0; icont < TAM; icont++){
-        ponteiro = vetorPrincipal[icont];
+        free(vetorPrincipal[icont]);
     }
 }
