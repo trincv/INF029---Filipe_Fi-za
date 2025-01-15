@@ -449,18 +449,66 @@ Retorno (No*)
     NULL, caso não tenha nenhum número nas listas
     No*, ponteiro para o início da lista com cabeçote
 */
-No *montarListaEncadeadaComCabecote()
-{
+No *montarListaEncadeadaComCabecote(){
+    No * inicio;
+    inicio = (No *) malloc(sizeof(No));
+    inicio->next = NULL;
+    No * atual;
+    atual = (No *) malloc(sizeof(No));
 
-    return NULL;
+    int jcont = 0;
+    int icont, posicao;
+    
+    for(icont = 0, posicao = 0; posicao < TAM; icont++){
+        
+        if(vetorPrincipal[posicao] != NULL && *(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+            
+            if(icont < Tam_Ponteiros[posicao]){
+                
+                if(*(vetorPrincipal[posicao] + icont) != VALOR_NULO){
+                    No * novo;
+                    novo = (No *) malloc(sizeof(No));
+                    novo->key = *(vetorPrincipal[posicao] + icont);
+                    novo->next = NULL;
+                    if(inicio->next == NULL){
+                        inicio->next = novo;
+                        atual = novo;
+                    } else{
+                        atual->next = novo;
+                        atual = novo;
+                    }
+                } else{
+                    icont = -1;
+                    posicao++;
+                }
+            } else{
+                icont = -1;
+                posicao++;
+            }
+        } else{
+            icont = -1;
+            posicao++;
+        }
+    }
+    atual = NULL;
+    free(atual);
+    return inicio;
 }
 
 /*
 Objetivo: retorna os números da lista enceada com cabeçote armazenando em vetorAux.
 Retorno void
 */
-void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[])
-{
+void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]){
+    No * temp = (No *) malloc(sizeof(No));
+    temp = inicio->next;
+    int icont = 0;
+
+    while(temp != NULL){
+        vetorAux[icont++] = temp->key;
+        temp = temp->next;
+    }
+    free(temp);
 }
 
 /*
@@ -470,8 +518,18 @@ O ponteiro inicio deve ficar com NULL.
 Retorno 
     void.
 */
-void destruirListaEncadeadaComCabecote(No **inicio)
-{
+void destruirListaEncadeadaComCabecote(No **inicio){
+
+    // No ** atual = (No *) malloc(sizeof(No));
+    // atual = inicio->next;
+    // inicio = NULL;
+
+    // while(atual != NULL){
+    //     No * liberar = (No *) malloc(sizeof(No));
+    //     liberar = atual;
+    //     atual = atual->next;
+    //     free(liberar);
+    // }
 }
 
 /*
@@ -479,8 +537,8 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 
 */
 
-void inicializar()
-{
+void inicializar(){
+    
 }
 
 /*

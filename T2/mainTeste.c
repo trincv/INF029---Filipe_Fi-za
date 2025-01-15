@@ -26,7 +26,8 @@ int main()
     testeListar();
     testeRetornarTodosNumeros();
     testeMudarTamanhoEstrutura();
-    // testeListaEncadeada();
+    printf("\\\\\\\\\\\\\\\\\\\\\n");
+    testeListaEncadeada();
     finalizar();
 }
 int ligado = 0;
