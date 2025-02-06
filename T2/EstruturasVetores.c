@@ -538,7 +538,7 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 */
 
 void inicializar(){
-    
+    //Inicio do trabalho
 }
 
 /*
