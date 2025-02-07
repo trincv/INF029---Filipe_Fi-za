@@ -1,14 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <string.h>
 #include "EstruturasVetores.h"
 
 #define VALOR_NULO INT_MIN
 #define TAM 10
+#define SEPARATOR 59
 
-int * vetorPrincipal[TAM];
-int Tam_Ponteiros[TAM];
+typedef struct Ponteiros{
+    int * ponteiros[TAM];
+    int tam[TAM];
+}Ponteiros;
 
+Ponteiros vetorPrincipal;
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
 com tamanho 'tamanho'
@@ -23,12 +28,12 @@ Rertono (int)
 int criarEstruturaAuxiliar(int posicao, int tamanho){
     posicao -= 1;
     if(posicao >= 0 && posicao < TAM){
-        if(vetorPrincipal[posicao] == NULL){
+        if(vetorPrincipal.ponteiros[posicao] == NULL){
             if(tamanho > 0){
-                vetorPrincipal[posicao] = (int *) malloc(tamanho * sizeof(int));
-                Tam_Ponteiros[posicao] = tamanho;
+                vetorPrincipal.ponteiros[posicao] = (int *) malloc(tamanho * sizeof(int));
+                vetorPrincipal.tam[posicao] = tamanho;
                 for(int icont = 0; icont < tamanho; icont++)
-                    *(vetorPrincipal[posicao] + icont) = VALOR_NULO;
+                    vetorPrincipal.ponteiros[posicao][icont] = VALOR_NULO;
                 return SUCESSO;
             }
             else
@@ -63,13 +68,13 @@ int inserirNumeroEmEstrutura(int posicao, int valor)
     else
     {
         // testar se existe a estrutura auxiliar
-        if (vetorPrincipal[posicao] != NULL)
+        if (vetorPrincipal.ponteiros[posicao] != NULL)
         {
-            for(icont = 0; *(vetorPrincipal[posicao] + icont) != VALOR_NULO && icont < Tam_Ponteiros[posicao]; icont++);
+            for(icont = 0; vetorPrincipal.ponteiros[posicao][icont] != VALOR_NULO && icont < vetorPrincipal.tam[posicao]; icont++);
             
-            if (icont < Tam_Ponteiros[posicao])
+            if (icont < vetorPrincipal.tam[posicao])
             {
-                *(vetorPrincipal[posicao] + icont) = valor;
+                vetorPrincipal.ponteiros[posicao][icont] = valor;
                 retorno = SUCESSO;
             }
             else
@@ -104,13 +109,13 @@ int excluirNumeroDoFinaldaEstrutura(int posicao)
     
     if(posicao >= 0 && posicao < TAM){
         
-        if(vetorPrincipal[posicao] != NULL){
+        if(vetorPrincipal.ponteiros[posicao] != NULL){
             
-            if(*(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+            if(vetorPrincipal.ponteiros[posicao][icont] != VALOR_NULO){
                 
-                for(icont = 0; *(vetorPrincipal[posicao] + icont) != VALOR_NULO && icont < Tam_Ponteiros[posicao]; icont++);
+                for(icont = 0; vetorPrincipal.ponteiros[posicao][icont] != VALOR_NULO && icont < vetorPrincipal.tam[posicao]; icont++);
                 
-                *(vetorPrincipal[posicao] + (icont - 1)) = VALOR_NULO;
+                vetorPrincipal.ponteiros[posicao][icont - 1] = VALOR_NULO;
                 
                 retorno = SUCESSO;
             }
@@ -146,16 +151,16 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
     
     if(posicao >= 0 && posicao < TAM){
         
-        if(vetorPrincipal[posicao] != NULL){
+        if(vetorPrincipal.ponteiros[posicao] != NULL){
             
-            for(icont = 0; *(vetorPrincipal[posicao] + icont) != valor && *(vetorPrincipal[posicao] + icont) != VALOR_NULO && icont < Tam_Ponteiros[posicao]; icont++);
+            for(icont = 0; vetorPrincipal.ponteiros[posicao][icont] != valor && vetorPrincipal.ponteiros[posicao][icont] != VALOR_NULO && icont < vetorPrincipal.tam[posicao]; icont++);
             
-            if(*(vetorPrincipal[posicao] + icont) == valor && icont < Tam_Ponteiros[posicao]){
+            if(vetorPrincipal.ponteiros[posicao][icont] == valor && icont < vetorPrincipal.tam[posicao]){
                 
-                for(; icont + 1 < Tam_Ponteiros[posicao]; icont++)
-                    *(vetorPrincipal[posicao] + icont) = *(vetorPrincipal[posicao] + (icont + 1));
+                for(; icont + 1 < vetorPrincipal.tam[posicao]; icont++)
+                    vetorPrincipal.ponteiros[posicao][icont] = vetorPrincipal.ponteiros[posicao][icont + 1];
                 
-                *(vetorPrincipal[posicao] + icont) = VALOR_NULO;
+                vetorPrincipal.ponteiros[posicao][icont] = VALOR_NULO;
                 
                 retorno = SUCESSO;
             }
@@ -201,12 +206,12 @@ int getDadosEstruturaAuxiliar(int posicao, int vetorAux[])
     
     if(posicao >= 0 && posicao < TAM){
         
-        if(vetorPrincipal[posicao] != NULL){
+        if(vetorPrincipal.ponteiros[posicao] != NULL){
             
-            if(*(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+            if(*(vetorPrincipal.ponteiros[posicao] + 0) != VALOR_NULO){
                 
-                for(icont = 0; *(vetorPrincipal[posicao] + icont) != VALOR_NULO && icont < Tam_Ponteiros[posicao]; icont++)
-                    vetorAux[jcont++] = *(vetorPrincipal[posicao] + icont);
+                for(icont = 0; *(vetorPrincipal.ponteiros[posicao] + icont) != VALOR_NULO && icont < vetorPrincipal.tam[posicao]; icont++)
+                    vetorAux[jcont++] = *(vetorPrincipal.ponteiros[posicao] + icont);
                 
                 retorno = SUCESSO;
             }
@@ -239,12 +244,12 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[])
     
     if(posicao >= 0 && posicao < TAM){
         
-        if(vetorPrincipal[posicao] != NULL){
+        if(vetorPrincipal.ponteiros[posicao] != NULL){
             
-            if(*(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+            if(*(vetorPrincipal.ponteiros[posicao] + 0) != VALOR_NULO){
                 
-                for(icont = 0; *(vetorPrincipal[posicao] + icont) != VALOR_NULO && icont < Tam_Ponteiros[posicao]; icont++)
-                    vetorAux[jcont++] = *(vetorPrincipal[posicao] + icont);
+                for(icont = 0; *(vetorPrincipal.ponteiros[posicao] + icont) != VALOR_NULO && icont < vetorPrincipal.tam[posicao]; icont++)
+                    vetorAux[jcont++] = *(vetorPrincipal.ponteiros[posicao] + icont);
                 
                 for(int i = 1; i < icont; i++){
                     int chave = vetorAux[i]; 
@@ -288,12 +293,12 @@ int getDadosDeTodasEstruturasAuxiliares(int vetorAux[])
     
     for(icont = 0, posicao = 0; posicao < TAM; icont++){
         
-        if(vetorPrincipal[posicao] != NULL && *(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+        if(vetorPrincipal.ponteiros[posicao] != NULL && *(vetorPrincipal.ponteiros[posicao] + 0) != VALOR_NULO){
             
-            if(icont < Tam_Ponteiros[posicao]){
+            if(icont < vetorPrincipal.tam[posicao]){
                 
-                if(*(vetorPrincipal[posicao] + icont) != VALOR_NULO){
-                    vetorAux[jcont++] = *(vetorPrincipal[posicao] + icont);
+                if(*(vetorPrincipal.ponteiros[posicao] + icont) != VALOR_NULO){
+                    vetorAux[jcont++] = *(vetorPrincipal.ponteiros[posicao] + icont);
                 } else{
                     icont = -1;
                     posicao++;
@@ -331,12 +336,12 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[])
     
     for(icont = 0, posicao = 0; posicao < TAM; icont++){
         
-        if(vetorPrincipal[posicao] != NULL && *(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+        if(vetorPrincipal.ponteiros[posicao] != NULL && *(vetorPrincipal.ponteiros[posicao] + 0) != VALOR_NULO){
             
-            if(icont < Tam_Ponteiros[posicao]){
+            if(icont < vetorPrincipal.tam[posicao]){
                 
-                if(*(vetorPrincipal[posicao] + icont) != VALOR_NULO){
-                    vetorAux[jcont++] = *(vetorPrincipal[posicao] + icont);
+                if(*(vetorPrincipal.ponteiros[posicao] + icont) != VALOR_NULO){
+                    vetorAux[jcont++] = *(vetorPrincipal.ponteiros[posicao] + icont);
                     kcont++;
                 } else{
                     icont = -1;
@@ -391,14 +396,14 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho)
     int retorno;
     posicao -= 1;
     if(posicao >= 0 && posicao < TAM){
-        if(vetorPrincipal[posicao] != NULL){
-            novoTamanho += Tam_Ponteiros[posicao];
+        if(vetorPrincipal.ponteiros[posicao] != NULL){
+            novoTamanho += vetorPrincipal.tam[posicao];
             if(novoTamanho > 0){
-                vetorPrincipal[posicao] = realloc(vetorPrincipal[posicao], novoTamanho * sizeof(int));
-                if(vetorPrincipal[posicao] != NULL){
-                    for(int icont = Tam_Ponteiros[posicao]; icont < novoTamanho; icont++)
-                        *(vetorPrincipal[posicao] + icont) = VALOR_NULO;
-                    Tam_Ponteiros[posicao] = novoTamanho;
+                vetorPrincipal.ponteiros[posicao] = realloc(vetorPrincipal.ponteiros[posicao], novoTamanho * sizeof(int));
+                if(vetorPrincipal.ponteiros[posicao] != NULL){
+                    for(int icont = vetorPrincipal.tam[posicao]; icont < novoTamanho; icont++)
+                        *(vetorPrincipal.ponteiros[posicao] + icont) = VALOR_NULO;
+                    vetorPrincipal.tam[posicao] = novoTamanho;
                     
                     retorno = SUCESSO;
                 } else
@@ -427,9 +432,9 @@ int getQuantidadeElementosEstruturaAuxiliar(int posicao)
     int retorno, qtd = 0;
     posicao -= 1;
     if(posicao >= 0 && posicao < TAM){
-        if(vetorPrincipal[posicao] != NULL){
-            if(*(vetorPrincipal[posicao] + 0) != VALOR_NULO){
-                for(int icont = 0; icont < Tam_Ponteiros[posicao] && *(vetorPrincipal[posicao] + icont) != VALOR_NULO; icont++)
+        if(vetorPrincipal.ponteiros[posicao] != NULL){
+            if(*(vetorPrincipal.ponteiros[posicao] + 0) != VALOR_NULO){
+                for(int icont = 0; icont < vetorPrincipal.tam[posicao] && *(vetorPrincipal.ponteiros[posicao] + icont) != VALOR_NULO; icont++)
                     qtd++;
                 return qtd;
             } else
@@ -461,14 +466,14 @@ No *montarListaEncadeadaComCabecote(){
     
     for(icont = 0, posicao = 0; posicao < TAM; icont++){
         
-        if(vetorPrincipal[posicao] != NULL && *(vetorPrincipal[posicao] + 0) != VALOR_NULO){
+        if(vetorPrincipal.ponteiros[posicao] != NULL && *(vetorPrincipal.ponteiros[posicao] + 0) != VALOR_NULO){
             
-            if(icont < Tam_Ponteiros[posicao]){
+            if(icont < vetorPrincipal.tam[posicao]){
                 
-                if(*(vetorPrincipal[posicao] + icont) != VALOR_NULO){
+                if(*(vetorPrincipal.ponteiros[posicao] + icont) != VALOR_NULO){
                     No * novo;
                     novo = (No *) malloc(sizeof(No));
-                    novo->key = *(vetorPrincipal[posicao] + icont);
+                    novo->key = *(vetorPrincipal.ponteiros[posicao] + icont);
                     novo->next = NULL;
                     if(inicio->next == NULL){
                         inicio->next = novo;
@@ -538,7 +543,10 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 */
 
 void inicializar(){
-    //Inicio do trabalho
+    for(int i = 0; i < TAM; i++)
+        vetorPrincipal.ponteiros[i] = NULL;
+    
+    load();
 }
 
 /*
@@ -549,7 +557,74 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 
 void finalizar()
 {
+    store();
+
     for(int icont = 0; icont < TAM; icont++){
-        free(vetorPrincipal[icont]);
+        free(vetorPrincipal.ponteiros[icont]);
     }
+
+}
+
+void store(){
+    FILE * file;
+
+    file = fopen("EstruturasVetoresFiles.txt","w");
+
+    if(file == NULL){
+        printf("Erro em reescrever arquivo!");
+        return;
+    }
+
+    for(int i = 0; i < TAM; i++){
+        if(vetorPrincipal.ponteiros[i] != NULL){
+            fprintf(file, "%d;%d;", i, vetorPrincipal.tam[i]);
+            for(int j = 0; vetorPrincipal.ponteiros[i][j] != VALOR_NULO && j < vetorPrincipal.tam[i]; j++)
+                fprintf(file, "%d;", vetorPrincipal.ponteiros[i][j]);
+            fprintf(file, "\n");
+        }
+    }
+    fclose(file);
+}
+void load(){
+    FILE * file;
+
+    file = fopen("EstruturasVetoresFiles.txt","r+");
+
+    if(file == NULL) file = fopen("EstruturasVetoresFiles.txt","w");
+
+    if(file == NULL){
+        printf("Erro em criar arquivo!");
+        return;
+    }
+    char buffer[100];
+
+    while(fgets(buffer, sizeof(buffer), file) != NULL){
+        
+        char * copy = strdup(buffer);
+        if(!copy){
+            printf("Alocação de memória falhou");
+            return;
+        }
+
+        char separator[2] = {SEPARATOR, '\0'};
+
+        char * token = strtok(copy, separator);
+        int pos = atoi(token);
+        
+        vetorPrincipal.tam[pos] = atoi(strtok(NULL, separator));
+        vetorPrincipal.ponteiros[pos] = (int *) malloc(vetorPrincipal.tam[pos] * sizeof(int));
+        
+        for(int icont = 0; icont < vetorPrincipal.tam[pos]; icont++)
+                vetorPrincipal.ponteiros[pos][icont] = VALOR_NULO;
+
+        int i = 0;
+        token = strtok(NULL, separator);
+        while(token != NULL){
+            vetorPrincipal.ponteiros[pos][i] = atoi(token);
+            token = strtok(NULL, separator);
+            i++;
+        }
+        free(copy);
+    }
+    fclose(file);
 }
